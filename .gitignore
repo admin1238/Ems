@@ -1,0 +1,35 @@
+# Build outputs
+x64/
+x86/
+Debug/
+Release/
+*.obj
+*.pdb
+*.ilk
+*.idb
+*.ipch
+*.tlog
+*.log
+*.tmp
+*.pch
+*.exe
+*.dll
+*.lib
+*.exp
+
+# Visual Studio / IDE
+.vs/
+*.VC.db
+*.VC.opendb
+*.user
+*.user.*
+*.suo
+*.cache
+
+# CMake (若有)
+CMakeFiles/
+CMakeCache.txt
+
+# Misc
+Thumbs.db
+Desktop.ini
