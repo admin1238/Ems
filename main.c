@@ -6,11 +6,11 @@ int main(void) {
     load_employees(&list, DATA_FILE);
 
     while (1) {
-        printf("\n===== Ա����Ϣ����ϵͳ =====\n");
-        printf("1. ����Ա��¼\n");
-        printf("2. Ա����¼\n");
-        printf("0. �˳�ϵͳ\n");
-        printf("��ѡ��: ");
+        printf("\n===== 员工信息管理系统 =====\n");
+        printf("1. 管理员登录\n");
+        printf("2. 员工登录\n");
+        printf("0. 退出系统\n");
+        printf("请选择: ");
 
         char choice[INPUT_BUFFER];
         if (!fgets(choice, sizeof(choice), stdin)) {
@@ -29,10 +29,10 @@ int main(void) {
         case '0':
             save_employees(&list, DATA_FILE);
             free_list(&list);
-            printf("��лʹ�ã��ټ���\n");
+            printf("感谢使用，再见！\n");
             return 0;
         default:
-            printf("��Ч��ѡ����������롣\n");
+            printf("无效的选项，请重新输入。\n");
         }
     }
 }

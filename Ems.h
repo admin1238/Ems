@@ -27,7 +27,7 @@ typedef struct {
     size_t capacity;
 } EmployeeList;
 
-//º¯ÊıÉùÃ÷
+//å‡½æ•°å£°æ˜
 void init_list(EmployeeList* list);
 void free_list(EmployeeList* list);
 int ensure_capacity(EmployeeList* list, size_t capacity);

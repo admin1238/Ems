@@ -1,33 +1,33 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include "Ems.h"
-//³õÊ¼»¯Ô±¹¤ÁĞ±í
-//size Ö¸´æ´¢µÄÔ±¹¤ÊıÁ¿£¬capacityÖ¸Êı×éµÄ×Ü´óĞ¡
+//åˆå§‹åŒ–å‘˜å·¥åˆ—è¡¨
+//size æŒ‡å­˜å‚¨çš„å‘˜å·¥æ•°é‡ï¼ŒcapacityæŒ‡æ•°ç»„çš„æ€»å¤§å°
  void init_list(EmployeeList* list) {
     list->data = NULL;
     list->size = 0;
     list->capacity = 0;
 }
- //ÊÍ·ÅdataÖ¸ÏòµÄ¶¯Ì¬ÄÚ´æ£¬·ÀÖ¹ÄÚ´æĞ¹Â¶
+ //é‡Šæ”¾dataæŒ‡å‘çš„åŠ¨æ€å†…å­˜ï¼Œé˜²æ­¢å†…å­˜æ³„éœ²
  void free_list(EmployeeList* list) {
     free(list->data);
     list->data = NULL;
     list->size = 0;
     list->capacity = 0;
 }
- //¶¯Ì¬Êı×é·ÖÅäÄÚ´æ
+ //åŠ¨æ€æ•°ç»„åˆ†é…å†…å­˜
 int ensure_capacity(EmployeeList* list, size_t capacity) {
     if (list->capacity >= capacity) {
         return 1;
     }
     size_t new_capacity = list->capacity == 0 ? 8 : list->capacity * 2;
     
-    //È·±£ĞÂÈİÁ¿ÖÁÉÙ´ïµ½ÒªÇóµÄÈİÁ¿£¬Èç¹û·­±¶ºó»¹²»¹»£¬¼ÌĞø·­±¶Ö±µ½Âú×ãÒªÇó
+    //ç¡®ä¿æ–°å®¹é‡è‡³å°‘è¾¾åˆ°è¦æ±‚çš„å®¹é‡ï¼Œå¦‚æœç¿»å€åè¿˜ä¸å¤Ÿï¼Œç»§ç»­ç¿»å€ç›´åˆ°æ»¡è¶³è¦æ±‚
     while (new_capacity < capacity) {
         new_capacity *= 2;
     }
     Employee* new_data = realloc(list->data, new_capacity * sizeof(Employee));
     if (!new_data) {
-        fprintf(stderr, "ÄÚ´æ²»×ã£¬ÎŞ·¨·ÖÅä¸ü¶à¿Õ¼ä¡£\n");
+        fprintf(stderr, "å†…å­˜ä¸è¶³ï¼Œæ— æ³•åˆ†é…æ›´å¤šç©ºé—´ã€‚\n");
         return 0;
     }
     list->data = new_data;
@@ -35,7 +35,7 @@ int ensure_capacity(EmployeeList* list, size_t capacity) {
     return 1;
 }
 
-//±ê×¼ÊäÈë¶ÁÈ¡Ò»ĞĞÎÄ±¾£¬²¢È¥³ıÄ©Î²µÄ»»ĞĞ·û¡£
+//æ ‡å‡†è¾“å…¥è¯»å–ä¸€è¡Œæ–‡æœ¬ï¼Œå¹¶å»é™¤æœ«å°¾çš„æ¢è¡Œç¬¦ã€‚
 void read_line(const char* prompt, char* buffer, size_t size) {
     if (prompt) {
         printf("%s", prompt);
@@ -44,13 +44,13 @@ void read_line(const char* prompt, char* buffer, size_t size) {
         buffer[0] = '\0';
         return;
     }
-    buffer[strcspn(buffer, "\n")] = '\0';//strcspn(buffer, "\n") ·µ»Ø»º³åÇøÖĞµÚÒ»¸ö»»ĞĞ·ûµÄÎ»ÖÃ
+    buffer[strcspn(buffer, "\n")] = '\0';//strcspn(buffer, "\n") è¿”å›ç¼“å†²åŒºä¸­ç¬¬ä¸€ä¸ªæ¢è¡Œç¬¦çš„ä½ç½®
 }
 
-//½«×Ö·û´®×ª»»ÎªÕûÊı
+//å°†å­—ç¬¦ä¸²è½¬æ¢ä¸ºæ•´æ•°
 int parse_int(const char* text, int* out_value) {
     char* end_ptr;
-    long value = strtol(text, &end_ptr, 10);//½«×Ö·û´®×ª»¯ÎªÕûÊı£¨Ê®½øÖÆ£©
+    long value = strtol(text, &end_ptr, 10);//å°†å­—ç¬¦ä¸²è½¬åŒ–ä¸ºæ•´æ•°ï¼ˆåè¿›åˆ¶ï¼‰
     if (end_ptr == text || *end_ptr != '\0') {
         return 0;
     }
@@ -58,7 +58,7 @@ int parse_int(const char* text, int* out_value) {
     return 1;
 }
 
-//½«×Ö·û´®×ª»»ÎªË«¾«¶È¸¡µãÊı
+//å°†å­—ç¬¦ä¸²è½¬æ¢ä¸ºåŒç²¾åº¦æµ®ç‚¹æ•°
 int parse_double(const char* text, double* out_value) {
     char* end_ptr;
     double value = strtod(text, &end_ptr);
@@ -82,7 +82,7 @@ void display_employee(const Employee* emp) {
 
 void display_header(void) {
     printf("%-12s %-10s %-6s %-4s %-10s %-10s %-20s\n",
-        "±àºÅ", "ĞÕÃû", "ĞÔ±ğ", "ÄêÁä", "Ñ§Àú", "¹¤×Ê", "µØÖ·");
+        "ç¼–å·", "å§“å", "æ€§åˆ«", "å¹´é¾„", "å­¦å†", "å·¥èµ„", "åœ°å€");
     printf("--------------------------------------------------------------------------------\n");
 }
 
@@ -95,11 +95,11 @@ int find_employee_by_id(const EmployeeList* list, const char* id) {
     return -1;
 }
 
-//´ÓÎÄ¼şÖĞ¼ÓÔØÔ±¹¤Êı¾İµ½ÄÚ´æÖĞµÄÔ±¹¤ÁĞ±í¡£Êı¾İ³Ö¾Ã»¯¶ÁÈ¡²Ù×÷
+//ä»æ–‡ä»¶ä¸­åŠ è½½å‘˜å·¥æ•°æ®åˆ°å†…å­˜ä¸­çš„å‘˜å·¥åˆ—è¡¨ã€‚æ•°æ®æŒä¹…åŒ–è¯»å–æ“ä½œ
 void load_employees(EmployeeList* list, const char* filename) {
     FILE* file = fopen(filename, "r");
     if (!file) {
-        printf("ÎŞ·¨´ò¿ªÎÄ¼ş: %s\n", filename);
+        printf("æ— æ³•æ‰“å¼€æ–‡ä»¶: %s\n", filename);
         return;
     }
     char line[MAX_LINE_LENGTH];
@@ -152,7 +152,7 @@ void load_employees(EmployeeList* list, const char* filename) {
 int save_employees(const EmployeeList* list, const char* filename) {
     FILE* file = fopen(filename, "w");
     if (!file) {
-        perror("ÎŞ·¨´ò¿ªÎÄ¼ş½øĞĞĞ´Èë");
+        perror("æ— æ³•æ‰“å¼€æ–‡ä»¶è¿›è¡Œå†™å…¥");
         return 0;
     }
     for (size_t i = 0; i < list->size; ++i) {
@@ -172,7 +172,7 @@ int save_employees(const EmployeeList* list, const char* filename) {
 
 void browse_employees(const EmployeeList* list) {
     if (list->size == 0) {
-        printf("ÔİÎŞÔ±¹¤ĞÅÏ¢¡£\n");
+        printf("æš‚æ— å‘˜å·¥ä¿¡æ¯ã€‚\n");
         return;
     }
     display_header();
@@ -188,47 +188,47 @@ void browse_employees(const EmployeeList* list) {
     Employee emp;
     char buffer[INPUT_BUFFER];
 
-    read_line("ÇëÊäÈëÔ±¹¤±àºÅ: ", emp.id, sizeof(emp.id));
+    read_line("è¯·è¾“å…¥å‘˜å·¥ç¼–å·: ", emp.id, sizeof(emp.id));
     if (find_employee_by_id(list, emp.id) >= 0) {
-        printf("¸Ã±àºÅÒÑ´æÔÚ£¬ÎŞ·¨ÖØ¸´Ìí¼Ó¡£\n");
+        printf("è¯¥ç¼–å·å·²å­˜åœ¨ï¼Œæ— æ³•é‡å¤æ·»åŠ ã€‚\n");
         return;
     }
 
-    read_line("ÇëÊäÈëĞÕÃû: ", emp.name, sizeof(emp.name));
-    read_line("ÇëÊäÈëĞÔ±ğ: ", emp.gender, sizeof(emp.gender));
+    read_line("è¯·è¾“å…¥å§“å: ", emp.name, sizeof(emp.name));
+    read_line("è¯·è¾“å…¥æ€§åˆ«: ", emp.gender, sizeof(emp.gender));
 
     while (1) {
-        read_line("ÇëÊäÈëÄêÁä: ", buffer, sizeof(buffer));
+        read_line("è¯·è¾“å…¥å¹´é¾„: ", buffer, sizeof(buffer));
         if (parse_int(buffer, &emp.age) && emp.age > 0) {
             break;
         }
-        printf("ÇëÊäÈëÕıÈ·µÄÄêÁä¡£\n");
+        printf("è¯·è¾“å…¥æ­£ç¡®çš„å¹´é¾„ã€‚\n");
     }
 
-    read_line("ÇëÊäÈëÑ§Àú: ", emp.education, sizeof(emp.education));
+    read_line("è¯·è¾“å…¥å­¦å†: ", emp.education, sizeof(emp.education));
 
     while (1) {
-        read_line("ÇëÊäÈë¹¤×Ê: ", buffer, sizeof(buffer));
+        read_line("è¯·è¾“å…¥å·¥èµ„: ", buffer, sizeof(buffer));
         if (parse_double(buffer, &emp.salary) && emp.salary >= 0.0) {
             break;
         }
-        printf("ÇëÊäÈëÓĞĞ§µÄ¹¤×ÊÊı×Ö¡£\n");
+        printf("è¯·è¾“å…¥æœ‰æ•ˆçš„å·¥èµ„æ•°å­—ã€‚\n");
     }
 
-    read_line("ÇëÊäÈëµØÖ·: ", emp.address, sizeof(emp.address));
+    read_line("è¯·è¾“å…¥åœ°å€: ", emp.address, sizeof(emp.address));
 
     list->data[list->size++] = emp;
     if (save_employees(list, DATA_FILE)) {
-        printf("Ô±¹¤ĞÅÏ¢ÒÑ±£´æ¡£\n");
+        printf("å‘˜å·¥ä¿¡æ¯å·²ä¿å­˜ã€‚\n");
     }
 }
 
 void delete_employee(EmployeeList* list) {
     char id[INPUT_BUFFER];
-    read_line("ÇëÊäÈëÒªÉ¾³ıµÄÔ±¹¤±àºÅ: ", id, sizeof(id));
+    read_line("è¯·è¾“å…¥è¦åˆ é™¤çš„å‘˜å·¥ç¼–å·: ", id, sizeof(id));
     int index = find_employee_by_id(list, id);
     if (index < 0) {
-        printf("Î´ÕÒµ½¸ÃÔ±¹¤¡£\n");
+        printf("æœªæ‰¾åˆ°è¯¥å‘˜å·¥ã€‚\n");
         return;
     }
     for (size_t i = index; i + 1 < list->size; ++i) {
@@ -236,38 +236,38 @@ void delete_employee(EmployeeList* list) {
     }
     list->size--;
     if (save_employees(list, DATA_FILE)) {
-        printf("Ô±¹¤ĞÅÏ¢ÒÑÉ¾³ı²¢±£´æ¡£\n");
+        printf("å‘˜å·¥ä¿¡æ¯å·²åˆ é™¤å¹¶ä¿å­˜ã€‚\n");
     }
 }
 
 void modify_employee(EmployeeList* list) {
     char buffer[INPUT_BUFFER];
     char id[INPUT_BUFFER];
-    read_line("ÇëÊäÈëÒªĞŞ¸ÄµÄÔ±¹¤±àºÅ: ", id, sizeof(id));
+    read_line("è¯·è¾“å…¥è¦ä¿®æ”¹çš„å‘˜å·¥ç¼–å·: ", id, sizeof(id));
     int index = find_employee_by_id(list, id);
     if (index < 0) {
-        printf("Î´ÕÒµ½¸ÃÔ±¹¤¡£\n");
+        printf("æœªæ‰¾åˆ°è¯¥å‘˜å·¥ã€‚\n");
         return;
     }
     Employee* emp = &list->data[index];
-    printf("µ±Ç°ĞÅÏ¢ÈçÏÂ:\n");
+    printf("å½“å‰ä¿¡æ¯å¦‚ä¸‹:\n");
     display_header();
     display_employee(emp);
 
-    read_line("ĞÂĞÕÃû(»Ø³µ±£³Ö²»±ä): ", buffer, sizeof(buffer));
+    read_line("æ–°å§“å(å›è½¦ä¿æŒä¸å˜): ", buffer, sizeof(buffer));
     if (strlen(buffer) > 0) {
         strncpy(emp->name, buffer, sizeof(emp->name) - 1);
         emp->name[sizeof(emp->name) - 1] = '\0';
     }
 
-    read_line("ĞÂĞÔ±ğ(»Ø³µ±£³Ö²»±ä): ", buffer, sizeof(buffer));
+    read_line("æ–°æ€§åˆ«(å›è½¦ä¿æŒä¸å˜): ", buffer, sizeof(buffer));
     if (strlen(buffer) > 0) {
         strncpy(emp->gender, buffer, sizeof(emp->gender) - 1);
         emp->gender[sizeof(emp->gender) - 1] = '\0';
     }
 
     while (1) {
-        read_line("ĞÂÄêÁä(»Ø³µ±£³Ö²»±ä): ", buffer, sizeof(buffer));
+        read_line("æ–°å¹´é¾„(å›è½¦ä¿æŒä¸å˜): ", buffer, sizeof(buffer));
         if (strlen(buffer) == 0) {
             break;
         }
@@ -276,17 +276,17 @@ void modify_employee(EmployeeList* list) {
             emp->age = new_age;
             break;
         }
-        printf("ÇëÊäÈëÕıÈ·µÄÄêÁä»òÖ±½Ó»Ø³µÌø¹ı¡£\n");
+        printf("è¯·è¾“å…¥æ­£ç¡®çš„å¹´é¾„æˆ–ç›´æ¥å›è½¦è·³è¿‡ã€‚\n");
     }
 
-    read_line("ĞÂÑ§Àú(»Ø³µ±£³Ö²»±ä): ", buffer, sizeof(buffer));
+    read_line("æ–°å­¦å†(å›è½¦ä¿æŒä¸å˜): ", buffer, sizeof(buffer));
     if (strlen(buffer) > 0) {
         strncpy(emp->education, buffer, sizeof(emp->education) - 1);
         emp->education[sizeof(emp->education) - 1] = '\0';
     }
 
     while (1) {
-        read_line("ĞÂ¹¤×Ê(»Ø³µ±£³Ö²»±ä): ", buffer, sizeof(buffer));
+        read_line("æ–°å·¥èµ„(å›è½¦ä¿æŒä¸å˜): ", buffer, sizeof(buffer));
         if (strlen(buffer) == 0) {
             break;
         }
@@ -295,26 +295,26 @@ void modify_employee(EmployeeList* list) {
             emp->salary = new_salary;
             break;
         }
-        printf("ÇëÊäÈëÕıÈ·µÄ¹¤×Ê»òÖ±½Ó»Ø³µÌø¹ı¡£\n");
+        printf("è¯·è¾“å…¥æ­£ç¡®çš„å·¥èµ„æˆ–ç›´æ¥å›è½¦è·³è¿‡ã€‚\n");
     }
 
-    read_line("ĞÂµØÖ·(»Ø³µ±£³Ö²»±ä): ", buffer, sizeof(buffer));
+    read_line("æ–°åœ°å€(å›è½¦ä¿æŒä¸å˜): ", buffer, sizeof(buffer));
     if (strlen(buffer) > 0) {
         strncpy(emp->address, buffer, sizeof(emp->address) - 1);
         emp->address[sizeof(emp->address) - 1] = '\0';
     }
 
     if (save_employees(list, DATA_FILE)) {
-        printf("Ô±¹¤ĞÅÏ¢ÒÑ¸üĞÂ¡£\n");
+        printf("å‘˜å·¥ä¿¡æ¯å·²æ›´æ–°ã€‚\n");
     }
 }
 
 void search_by_id(const EmployeeList* list) {
     char id[INPUT_BUFFER];
-    read_line("ÇëÊäÈëÔ±¹¤±àºÅ: ", id, sizeof(id));
+    read_line("è¯·è¾“å…¥å‘˜å·¥ç¼–å·: ", id, sizeof(id));
     int index = find_employee_by_id(list, id);
     if (index < 0) {
-        printf("Î´ÕÒµ½¸ÃÔ±¹¤¡£\n");
+        printf("æœªæ‰¾åˆ°è¯¥å‘˜å·¥ã€‚\n");
         return;
     }
     display_header();
@@ -323,9 +323,9 @@ void search_by_id(const EmployeeList* list) {
 
 void search_by_name(const EmployeeList* list) {
     char name[INPUT_BUFFER];
-    read_line("ÇëÊäÈëĞÕÃû»òĞÕÃûÆ¬¶Î: ", name, sizeof(name));
+    read_line("è¯·è¾“å…¥å§“åæˆ–å§“åç‰‡æ®µ: ", name, sizeof(name));
     if (strlen(name) == 0) {
-        printf("ÇëÊäÈëÓĞĞ§µÄĞÕÃû¡£\n");
+        printf("è¯·è¾“å…¥æœ‰æ•ˆçš„å§“åã€‚\n");
         return;
     }
 
@@ -338,7 +338,7 @@ void search_by_name(const EmployeeList* list) {
         }
     }
     if (!found) {
-        printf("Î´ÕÒµ½Æ¥ÅäµÄÔ±¹¤¡£\n");
+        printf("æœªæ‰¾åˆ°åŒ¹é…çš„å‘˜å·¥ã€‚\n");
     }
 }
 
@@ -352,40 +352,40 @@ int compare_salary(const void* a, const void* b) {
 
 void sort_by_salary(EmployeeList* list) {
     if (list->size < 2) {
-        printf("Êı¾İ²»×ã£¬ÎŞĞèÅÅĞò¡£\n");
+        printf("æ•°æ®ä¸è¶³ï¼Œæ— éœ€æ’åºã€‚\n");
         return;
     }
     qsort(list->data, list->size, sizeof(Employee), compare_salary);
     if (save_employees(list, DATA_FILE)) {
-        printf("ÒÑ°´¹¤×Ê´ÓµÍµ½¸ßÅÅĞò²¢±£´æ¡£\n");
+        printf("å·²æŒ‰å·¥èµ„ä»ä½åˆ°é«˜æ’åºå¹¶ä¿å­˜ã€‚\n");
     }
 }
 
  int admin_login(void) {
     char username[INPUT_BUFFER];
     char password[INPUT_BUFFER];
-    read_line("ÇëÊäÈë¹ÜÀíÔ±ÕËºÅ: ", username, sizeof(username));
-    read_line("ÇëÊäÈë¹ÜÀíÔ±ÃÜÂë: ", password, sizeof(password));
+    read_line("è¯·è¾“å…¥ç®¡ç†å‘˜è´¦å·: ", username, sizeof(username));
+    read_line("è¯·è¾“å…¥ç®¡ç†å‘˜å¯†ç : ", password, sizeof(password));
     if (strcmp(username, ADMIN_USERNAME) == 0 && strcmp(password, ADMIN_PASSWORD) == 0) {
-        printf("¹ÜÀíÔ±µÇÂ¼³É¹¦¡£\n");
+        printf("ç®¡ç†å‘˜ç™»å½•æˆåŠŸã€‚\n");
         return 1;
     }
-    printf("ÕËºÅ»òÃÜÂë´íÎó¡£\n");
+    printf("è´¦å·æˆ–å¯†ç é”™è¯¯ã€‚\n");
     return 0;
 }
 
 void admin_menu(EmployeeList* list) {
     while (1) {
-        printf("\n===== ¹ÜÀíÔ±²Ëµ¥ =====\n");
-        printf("1. ä¯ÀÀËùÓĞÔ±¹¤ĞÅÏ¢\n");
-        printf("2. Ìí¼ÓÔ±¹¤ĞÅÏ¢\n");
-        printf("3. ĞŞ¸ÄÔ±¹¤ĞÅÏ¢\n");
-        printf("4. É¾³ıÔ±¹¤ĞÅÏ¢\n");
-        printf("5. °´±àºÅ²éÑ¯Ô±¹¤\n");
-        printf("6. °´ĞÕÃû²éÑ¯Ô±¹¤\n");
-        printf("7. °´¹¤×ÊÅÅĞò\n");
-        printf("0. ·µ»ØÖ÷²Ëµ¥\n");
-        printf("ÇëÑ¡Ôñ: ");
+        printf("\n===== ç®¡ç†å‘˜èœå• =====\n");
+        printf("1. æµè§ˆæ‰€æœ‰å‘˜å·¥ä¿¡æ¯\n");
+        printf("2. æ·»åŠ å‘˜å·¥ä¿¡æ¯\n");
+        printf("3. ä¿®æ”¹å‘˜å·¥ä¿¡æ¯\n");
+        printf("4. åˆ é™¤å‘˜å·¥ä¿¡æ¯\n");
+        printf("5. æŒ‰ç¼–å·æŸ¥è¯¢å‘˜å·¥\n");
+        printf("6. æŒ‰å§“åæŸ¥è¯¢å‘˜å·¥\n");
+        printf("7. æŒ‰å·¥èµ„æ’åº\n");
+        printf("0. è¿”å›ä¸»èœå•\n");
+        printf("è¯·é€‰æ‹©: ");
 
         char choice[INPUT_BUFFER];
         if (!fgets(choice, sizeof(choice), stdin)) {
@@ -417,17 +417,17 @@ void admin_menu(EmployeeList* list) {
         case '0':
             return;
         default:
-            printf("ÎŞĞ§µÄÑ¡Ïî£¬ÇëÖØĞÂÊäÈë¡£\n");
+            printf("æ— æ•ˆçš„é€‰é¡¹ï¼Œè¯·é‡æ–°è¾“å…¥ã€‚\n");
         }
     }
 }
 
 void user_menu(const Employee* emp) {
     while (1) {
-        printf("\n===== ÓÃ»§²Ëµ¥ =====\n");
-        printf("1. ²é¿´¸öÈËĞÅÏ¢\n");
-        printf("0. ÍË³öµÇÂ¼\n");
-        printf("ÇëÑ¡Ôñ: ");
+        printf("\n===== ç”¨æˆ·èœå• =====\n");
+        printf("1. æŸ¥çœ‹ä¸ªäººä¿¡æ¯\n");
+        printf("0. é€€å‡ºç™»å½•\n");
+        printf("è¯·é€‰æ‹©: ");
 
         char choice[INPUT_BUFFER];
         if (!fgets(choice, sizeof(choice), stdin)) {
@@ -442,7 +442,7 @@ void user_menu(const Employee* emp) {
         case '0':
             return;
         default:
-            printf("ÎŞĞ§µÄÑ¡Ïî£¬ÇëÖØĞÂÊäÈë¡£\n");
+            printf("æ— æ•ˆçš„é€‰é¡¹ï¼Œè¯·é‡æ–°è¾“å…¥ã€‚\n");
         }
     }
 }
@@ -450,18 +450,18 @@ void user_menu(const Employee* emp) {
 void user_login(const EmployeeList* list) {
     char id[INPUT_BUFFER];
     char name[INPUT_BUFFER];
-    read_line("ÇëÊäÈëÔ±¹¤±àºÅ: ", id, sizeof(id));
-    read_line("ÇëÊäÈëĞÕÃû: ", name, sizeof(name));
+    read_line("è¯·è¾“å…¥å‘˜å·¥ç¼–å·: ", id, sizeof(id));
+    read_line("è¯·è¾“å…¥å§“å: ", name, sizeof(name));
 
     int index = find_employee_by_id(list, id);
     if (index < 0) {
-        printf("Î´ÕÒµ½¸ÃÔ±¹¤¡£\n");
+        printf("æœªæ‰¾åˆ°è¯¥å‘˜å·¥ã€‚\n");
         return;
     }
     if (strcmp(list->data[index].name, name) != 0) {
-        printf("ĞÕÃûÓë±àºÅ²»Æ¥Åä¡£\n");
+        printf("å§“åä¸ç¼–å·ä¸åŒ¹é…ã€‚\n");
         return;
     }
-    printf("µÇÂ¼³É¹¦¡£\n");
+    printf("ç™»å½•æˆåŠŸã€‚\n");
     user_menu(&list->data[index]);
 }
