@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build EMS (MSVC)",
+      "type": "shell",
+      "command": "cl",
+      "args": ["/nologo", "/TC", "/std:c11", "/W4",   "/utf-8", "/Zi",
+               "/Fe:${workspaceFolder}\\ems.exe",
+               "${workspaceFolder}\\main.c",
+               "${workspaceFolder}\\Ems.c"],
+      "options": { 
+        "cwd": "${workspaceFolder}" ,
+         "shell": {
+          "executable": "C:\\Windows\\System32\\cmd.exe",
+          "args": ["/d", "/c"]              // 用 cmd 的 /d /c 调用
+        }
+      },
+      "problemMatcher": ["$msCompile"],
+      "group": { "kind": "build", "isDefault": true }
+    }
+  ]
+}
